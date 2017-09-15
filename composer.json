@@ -1,0 +1,22 @@
+{
+    "name": "masnathan/dom-feed",
+    "description": "Yet another RSS and Atom feeds Parser/Handler",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "André Filipe",
+            "email": "andre.r.flip@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "symfony/var-dumper": "^3.3",
+        "phpunit/phpunit": "^5.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "MASNathan\\DOMFeed\\": "src/"
+        }
+    }
+}
