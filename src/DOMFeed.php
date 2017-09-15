@@ -49,6 +49,28 @@ class DOMFeed
         }
     }
 
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->document->documentElement->nodeName;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getVersion()
+    {
+        if ($this->document->documentElement->hasAttribute('version')) {
+            $version = $this->document->documentElement->getAttribute('version');
+
+            return floatval($version);
+        }
+
+        return null;
+    }
+
     public function toString()
     {
         $document = clone $this->document;
