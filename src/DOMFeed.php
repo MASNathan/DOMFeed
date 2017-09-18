@@ -7,6 +7,12 @@ use MASNathan\DOMFeed\Entities\Details;
 use MASNathan\DOMFeed\Entities\Image;
 use MASNathan\DOMFeed\Entities\Item;
 
+/**
+ * Class DOMFeed
+ *
+ * @package    MASNathan\DOMFeed
+ * @inheritdoc DOMDocument
+ */
 class DOMFeed
 {
     /**
@@ -78,5 +84,20 @@ class DOMFeed
         $document->formatOutput = true;
 
         return $document->saveXML();
+    }
+
+    public function __call($name, $arguments)
+    {
+        return call_user_func_array([$this->document, $name], $arguments);
+    }
+
+    public function __get($name)
+    {
+        return $this->document->$name;
+    }
+
+    public function __set($name, $value)
+    {
+        $this->document->$name = $value;
     }
 }
