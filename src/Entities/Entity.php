@@ -5,7 +5,7 @@ namespace MASNathan\DOMFeed\Entities;
 use DOMElement;
 use DateTime;
 
-class DOMEntity
+abstract class Entity
 {
     protected $parentElement;
 

@@ -3,9 +3,9 @@
 namespace MASNathan\DOMFeed;
 
 use DOMDocument;
-use MASNathan\DOMFeed\Entities\Details;
-use MASNathan\DOMFeed\Entities\Image;
-use MASNathan\DOMFeed\Entities\Item;
+use MASNathan\DOMFeed\Entities\Rss\Details;
+use MASNathan\DOMFeed\Entities\Rss\Image;
+use MASNathan\DOMFeed\Entities\Rss\Item;
 
 /**
  * Class DOMFeed
@@ -48,7 +48,7 @@ class DOMFeed
         $this->channel = $this->document->getElementsByTagName('channel')->item(0);
 
         $this->details = new Details($this->channel);
-        $this->image = new Image($this->channel);
+        $this->image = new Image($this->channel->getElementsByTagName('image')->item(0));
 
         foreach ($this->channel->getElementsByTagName('item') as $itemElement) {
             $this->items[] = new Item($itemElement);

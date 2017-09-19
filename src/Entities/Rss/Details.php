@@ -1,6 +1,9 @@
 <?php
 
-namespace MASNathan\DOMFeed\Entities;
+namespace MASNathan\DOMFeed\Entities\Rss;
+
+use MASNathan\DOMFeed\Entities\DetailsInterface;
+use MASNathan\DOMFeed\Entities\Entity;
 
 /**
  * Class Details
@@ -20,7 +23,7 @@ namespace MASNathan\DOMFeed\Entities;
  * @property string $webMaster
  * @property string $generator
  */
-class Details extends DOMEntity
+class Details extends Entity implements DetailsInterface
 {
     protected $properties = [
         'title',
@@ -38,4 +41,29 @@ class Details extends DOMEntity
     ];
 
     protected $dates = ['lastBuildDate', 'pubDate'];
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function getUrl()
+    {
+        return $this->link;
+    }
+
+    public function getGenerator()
+    {
+        return $this->generator;
+    }
+
+    public function getPublishedDate()
+    {
+        return $this->pubDate;
+    }
 }
