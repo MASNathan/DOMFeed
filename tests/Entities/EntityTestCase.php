@@ -31,9 +31,9 @@ abstract class EntityTestCase extends TestCase
         $this->document->load(ROOT_PATH . $this->getFeedLocation());
     }
 
-    protected function getElementByXPath($path)
+    protected function getElementByXPath($path, DOMDocument $document = null)
     {
-        $xpath = new DOMXPath($this->document);
+        $xpath = new DOMXPath($document ?: $this->document);
 
         return $xpath->query($path);
     }

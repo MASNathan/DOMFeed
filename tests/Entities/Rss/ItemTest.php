@@ -2,8 +2,10 @@
 
 namespace MASNathan\DOMFeed\Test\Entities\Rss;
 
+use MASNathan\DOMFeed\Entities\ItemInterface;
 use MASNathan\DOMFeed\Test\Entities\EntityTestCase;
 use DateTime;
+use DOMDocument;
 
 class ItemTest extends EntityTestCase implements ItemInterfaceTest
 {
@@ -21,11 +23,51 @@ class ItemTest extends EntityTestCase implements ItemInterfaceTest
         );
     }
 
+    public function testSetTitleMethod()
+    {
+        $title = 'Some random title';
+        $feed = clone $this->feed;
+
+        $this->assertInstanceOf(
+            ItemInterface::class,
+            $feed->items[0]->setTitle($title)
+        );
+
+        $document = new DOMDocument();
+        $document->loadXML($feed->toString());
+
+        $this->assertEquals($title, $feed->items[0]->getTitle());
+        $this->assertEquals(
+            $title,
+            $this->getElementByXPath('//channel/item/title', $document)->item(0)->textContent
+        );
+    }
+
     public function testGetDescriptionMethod()
     {
         $this->assertEquals(
             $this->getElementByXPath('//channel/item/description')->item(0)->textContent,
             $this->feed->items[0]->getDescription()
+        );
+    }
+
+    public function testSetDescriptionMethod()
+    {
+        $description = 'Some random description';
+        $feed = clone $this->feed;
+
+        $this->assertInstanceOf(
+            ItemInterface::class,
+            $feed->items[0]->setDescription($description)
+        );
+
+        $document = new DOMDocument();
+        $document->loadXML($feed->toString());
+
+        $this->assertEquals($description, $feed->items[0]->getDescription());
+        $this->assertEquals(
+            $description,
+            $this->getElementByXPath('//channel/item/description', $document)->item(0)->textContent
         );
     }
 
@@ -37,6 +79,26 @@ class ItemTest extends EntityTestCase implements ItemInterfaceTest
         );
     }
 
+    public function testSetUrlMethod()
+    {
+        $url = 'https://github.com/MASNathan/DOMFeed/';
+        $feed = clone $this->feed;
+
+        $this->assertInstanceOf(
+            ItemInterface::class,
+            $feed->items[0]->setUrl($url)
+        );
+
+        $document = new DOMDocument();
+        $document->loadXML($feed->toString());
+
+        $this->assertEquals($url, $feed->items[0]->getUrl());
+        $this->assertEquals(
+            $url,
+            $this->getElementByXPath('//channel/item/link', $document)->item(0)->textContent
+        );
+    }
+
     public function testGetPublishedDateMethod()
     {
         $this->assertEquals(
@@ -45,35 +107,23 @@ class ItemTest extends EntityTestCase implements ItemInterfaceTest
         );
     }
 
-    public function testGetTitleProperty()
+    public function testSetPublishedDateMethod()
     {
-        $this->assertEquals(
-            $this->getElementByXPath('//channel/item/title')->item(0)->textContent,
-            $this->feed->items[0]->title
-        );
-    }
+        $datetime = new DateTime();
+        $feed = clone $this->feed;
 
-    public function testGetDescriptionProperty()
-    {
-        $this->assertEquals(
-            $this->getElementByXPath('//channel/item/description')->item(0)->textContent,
-            $this->feed->items[0]->description
+        $this->assertInstanceOf(
+            ItemInterface::class,
+            $feed->items[0]->setPublishedDate($datetime)
         );
-    }
 
-    public function testGetLinkProperty()
-    {
-        $this->assertEquals(
-            $this->getElementByXPath('//channel/item/link')->item(0)->textContent,
-            $this->feed->items[0]->link
-        );
-    }
+        $document = new DOMDocument();
+        $document->loadXML($feed->toString());
 
-    public function testGetPubDateProperty()
-    {
+        $this->assertEquals($datetime, $feed->items[0]->getPublishedDate());
         $this->assertEquals(
-            (new DateTime($this->getElementByXPath('//channel/item/pubDate')->item(0)->textContent))->format(DateTime::RSS),
-            $this->feed->items[0]->pubDate->format(DateTime::RSS)
+            $datetime->format(DATE_RSS),
+            $this->getElementByXPath('//channel/item/pubDate', $document)->item(0)->textContent
         );
     }
 }

@@ -2,8 +2,9 @@
 
 namespace MASNathan\DOMFeed\Test\Entities\Rss;
 
+use MASNathan\DOMFeed\Entities\ImageInterface;
 use MASNathan\DOMFeed\Test\Entities\EntityTestCase;
-use DateTime;
+use DOMDocument;
 
 class ImageTest extends EntityTestCase implements ImageInterfaceTest
 {
@@ -21,11 +22,51 @@ class ImageTest extends EntityTestCase implements ImageInterfaceTest
         );
     }
 
+    public function testSetTitleMethod()
+    {
+        $title = 'Some random title';
+        $feed = clone $this->feed;
+
+        $this->assertInstanceOf(
+            ImageInterface::class,
+            $feed->image->setTitle($title)
+        );
+
+        $document = new DOMDocument();
+        $document->loadXML($feed->toString());
+
+        $this->assertEquals($title, $feed->image->getTitle());
+        $this->assertEquals(
+            $title,
+            $this->getElementByXPath('//channel/image/title', $document)->item(0)->textContent
+        );
+    }
+
     public function testGetDescriptionMethod()
     {
         $this->assertEquals(
             $this->getElementByXPath('//channel/image/description')->item(0)->textContent,
             $this->feed->image->getDescription()
+        );
+    }
+
+    public function testSetDescriptionMethod()
+    {
+        $description = 'Some random description';
+        $feed = clone $this->feed;
+
+        $this->assertInstanceOf(
+            ImageInterface::class,
+            $feed->image->setDescription($description)
+        );
+
+        $document = new DOMDocument();
+        $document->loadXML($feed->toString());
+
+        $this->assertEquals($description, $feed->image->getDescription());
+        $this->assertEquals(
+            $description,
+            $this->getElementByXPath('//channel/image/description', $document)->item(0)->textContent
         );
     }
 
@@ -37,11 +78,51 @@ class ImageTest extends EntityTestCase implements ImageInterfaceTest
         );
     }
 
+    public function testSetUrlMethod()
+    {
+        $url = 'https://github.com/MASNathan/DOMFeed/';
+        $feed = clone $this->feed;
+
+        $this->assertInstanceOf(
+            ImageInterface::class,
+            $feed->image->setUrl($url)
+        );
+
+        $document = new DOMDocument();
+        $document->loadXML($feed->toString());
+
+        $this->assertEquals($url, $feed->image->getUrl());
+        $this->assertEquals(
+            $url,
+            $this->getElementByXPath('//channel/image/url', $document)->item(0)->textContent
+        );
+    }
+
     public function testGetWidthMethod()
     {
         $this->assertEquals(
             $this->getElementByXPath('//channel/image/width')->item(0)->textContent,
             $this->feed->image->getWidth()
+        );
+    }
+
+    public function testSetWidthMethod()
+    {
+        $width = 800;
+        $feed = clone $this->feed;
+
+        $this->assertInstanceOf(
+            ImageInterface::class,
+            $feed->image->setWidth($width)
+        );
+
+        $document = new DOMDocument();
+        $document->loadXML($feed->toString());
+
+        $this->assertEquals($width, $feed->image->getWidth());
+        $this->assertEquals(
+            $width,
+            $this->getElementByXPath('//channel/image/width', $document)->item(0)->textContent
         );
     }
 
@@ -53,51 +134,23 @@ class ImageTest extends EntityTestCase implements ImageInterfaceTest
         );
     }
 
-    public function testGetTitleProperty()
+    public function testSetHeightMethod()
     {
-        $this->assertEquals(
-            $this->getElementByXPath('//channel/image/title')->item(0)->textContent,
-            $this->feed->image->title
-        );
-    }
+        $height = 600;
+        $feed = clone $this->feed;
 
-    public function testGetDescriptionProperty()
-    {
-        $this->assertEquals(
-            $this->getElementByXPath('//channel/image/description')->item(0)->textContent,
-            $this->feed->image->description
+        $this->assertInstanceOf(
+            ImageInterface::class,
+            $feed->image->setHeight($height)
         );
-    }
 
-    public function testGetLinkProperty()
-    {
-        $this->assertEquals(
-            $this->getElementByXPath('//channel/image/link')->item(0)->textContent,
-            $this->feed->image->link
-        );
-    }
+        $document = new DOMDocument();
+        $document->loadXML($feed->toString());
 
-    public function testGetUrlProperty()
-    {
+        $this->assertEquals($height, $feed->image->getHeight());
         $this->assertEquals(
-            $this->getElementByXPath('//channel/image/url')->item(0)->textContent,
-            $this->feed->image->url
-        );
-    }
-
-    public function testGetWidthProperty()
-    {
-        $this->assertEquals(
-            $this->getElementByXPath('//channel/image/width')->item(0)->textContent,
-            $this->feed->image->width
-        );
-    }
-
-    public function testGetHeightProperty()
-    {
-        $this->assertEquals(
-            $this->getElementByXPath('//channel/image/height')->item(0)->textContent,
-            $this->feed->image->height
+            $height,
+            $this->getElementByXPath('//channel/image/height', $document)->item(0)->textContent
         );
     }
 }
